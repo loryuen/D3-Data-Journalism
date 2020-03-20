@@ -67,21 +67,36 @@ d3.csv("assets/data/data.csv").then(function(censusData) {
         .data(censusData)
         .enter()
         .append("circle")
+        .classed("stateCircle", true)
         .attr("cx", d => xScale(d.healthcare))
         .attr("cy", d => yScale(d.poverty))
         .attr("r", "15")
-        .attr("fill", "pink")
-        .attr("opacity", "0.5");
+        // .attr("fill", "pink")
+        // .attr("opacity", "0.5");
+        console.log("hi")
+
+    // text on circles
+    chartGroup.selectAll("stateText")
+        .data(censusData)
+        .enter()
+        .append("text")
+        .attr("class", "stateText")
+        .attr("x", d => xScale(d.healthcare))
+        .attr("y", d => yScale(d.poverty))
+        // .attr("dx", ".71em")
+        .attr("dy", ".35em")
+        .text(function(d) {return d.abbr})
+        
 
     // // tool tip
     var toolTip = d3.tip()
         .attr("class", "d3-tip")
         .offset([80, -60])
         .html(function(d) {
-            return (`${d.state}<br>Without Healthcare: ${d.healthcare}<br>% in Poverty: ${d.poverty}`)
+            return (`${d.state}<br>% without Healthcare: ${d.healthcare}<br>% in Poverty: ${d.poverty}`)
         });
     
-    // // call tooltip to chart
+    // // // call tooltip to chart
     chartGroup.call(toolTip);
 
     // event listener
