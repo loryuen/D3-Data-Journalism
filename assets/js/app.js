@@ -1,11 +1,19 @@
-// function makeResponsive() {
+function makeResponsive() {
 
+    // clear out chart
+    // if the SVG area isn't empty when the browser loads,
+  // remove it and replace it with a resized version of the chart
+  var svgArea = d3.select("body").select("svg");
 
+  // clear svg is not empty
+  if (!svgArea.empty()) {
+    svgArea.remove();
+  }
     // set parameters
-    svgWidth = 750;
-    svgHeight = 600;
-    // svgWidth = window.innerWidth;
-    // svgHeight = window.innerHeight;
+    // svgWidth = 750;
+    // svgHeight = 600;
+    svgWidth = window.innerWidth > 750 ? 750 : window.innerWidth; // if innerwidth is greater than 750, set to 750, if not set to innerwidth
+    svgHeight = window.innerHeight > 600 ? 600 : window.innerHeight;
 
     var margin = {
         top: 30,
@@ -107,10 +115,10 @@
         chartGroup.call(toolTip);
 
         // event listener
-        circlesGroup.on("mouseover", function(data) {
+        circlesGroup.on("mouseenter", function(data) {
             toolTip.show(data, this)
         })
-        .on("mouseout", function(data) {
+        .on("mouseleave", function(data) {
             toolTip.hide(data)
         })
 
@@ -131,8 +139,8 @@
     }).catch(function(error) {
         console.log(error)
     });
-// };
+};
 
-// makeResponsive();
+makeResponsive();
 
-// // d3.select(window).on("resize", makeResponsive);
+d3.select(window).on("resize", makeResponsive);

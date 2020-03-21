@@ -28,6 +28,7 @@
   font-family: sans-serif;
   fill: #fff;
   text-anchor: middle;
+  pointer-events: none;  /*removes cursor event from state*/
 }
 
 .stateCircle {
@@ -53,7 +54,7 @@
 }
 
 /* Mobile Rules */
-@media screen and (max-width: 530px) {
+@media screen and (max-width: 750px) {
   .stateText {
     display: none;
   }
@@ -63,7 +64,7 @@
   }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 750px) {
   .aText {
     font-size: 13px;
   }
