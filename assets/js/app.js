@@ -54,7 +54,7 @@
                 .range([0, width]);
 
         return xLinearScale;
-    }
+    };
 
     ///////////////////////////////////////////////////////////////////
     // function used for updating xAxis var upon click on axis label //
@@ -82,6 +82,24 @@
         
         return circlesGroup;
     };
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    // function used for updating circles text with a transition to new circles text //
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    function renderCirclesText(circlesText, newXScale, chosenXAxis) {
+        
+        circlesText.transition()
+            .duration(1000)
+            .attr("x", d => newXScale(d[chosenXAxis]))
+            // .attr("y", d => yScale(d.healthcare))
+            // // .attr("dx", ".71em")
+            // .attr("dy", ".35em")
+            // .text(function(d) {return d.abbr})
+
+        return circlesText;
+
+    }
 
     ///////////////////////////////////////////////////////////////
     // function used for updating circles group with new tooltip //
@@ -118,7 +136,6 @@
 
         return circlesGroup;
     };
-
 
     /////////////////////////
     // load data from csv //
@@ -190,8 +207,10 @@
             .attr("cy", d => yScale(d.healthcare))
             .attr("r", "20")
 
-        // append text on circles
-        chartGroup.selectAll("stateText")
+        ///////////////////////////////////
+        // append initial text on circles
+        //////////////////////////////////
+        var circlesText = chartGroup.selectAll("stateText")
             .data(censusData)
             .enter()
             .append("text")
@@ -268,7 +287,7 @@
         //     .text("Population in Poverty (%)")
 
         // updateToolTip function 
-        var circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
+        circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
 
         // x axis labels event listener
         labelsGroup.selectAll("text")
@@ -291,6 +310,9 @@
                     // update tooltips with new info
                     circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
 
+                    // update circles text
+                    circlesText = renderCirclesText(circlesText, xLinearScale, chosenXAxis);
+
                     // changes classes to change bold text of x-axis
                     if (chosenXAxis === "income") {
                         incomeLabel
@@ -308,11 +330,8 @@
                             .classed("active", true)
                             .classed("inactive", false);
                     }
-
-
                 }
             })
-
     }).catch(function(error) {
         console.log(error)
     });

@@ -28,7 +28,7 @@
   font-family: sans-serif;
   fill: #fff;
   text-anchor: middle;
-  pointer-events: none;  /*removes cursor event from state*/
+  pointer-events: none;  /*removes cursor event from statetext*/
 }
 
 .stateCircle {
