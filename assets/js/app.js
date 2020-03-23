@@ -207,9 +207,7 @@
             .attr("cy", d => yScale(d.healthcare))
             .attr("r", "20")
 
-        ///////////////////////////////////
         // append initial text on circles
-        //////////////////////////////////
         var circlesText = chartGroup.selectAll("stateText")
             .data(censusData)
             .enter()
@@ -262,6 +260,7 @@
             .attr("x", 0)
             .attr("y", 20)
             .attr("value", "poverty")
+            .classed("active", true)
             .text("Population in Poverty (%)");
 
         var incomeLabel = labelsGroup.append("text")
@@ -269,6 +268,7 @@
             .attr("x", 0)
             .attr("y", 40)
             .attr("value", "income")
+            .classed("inactive", true)
             .text("Household Income (Median)");
 
         // y axis labels
