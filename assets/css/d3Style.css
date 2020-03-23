@@ -37,6 +37,10 @@
   pointer-events: all;
 }
 
+.stateCircle:hover {
+  stroke: #000;
+}
+
 .chart {
   display: block;
   margin: 0;
