@@ -1,22 +1,22 @@
-// function makeResponsive() {
+function makeResponsive() {
 
     // if the SVG area isn't empty when the browser loads,
-  // remove it and replace it with a resized version of the chart
-//   var svgArea = d3.select("body").select("svg");
+    // remove it and replace it with a resized version of the chart
+    var svgArea = d3.select("body").select("svg");
 
-//   // clear svg is not empty
-//   if (!svgArea.empty()) {
-//     svgArea.remove();
-//   };
+   // clear svg is not empty
+    if (!svgArea.empty()) {
+        svgArea.remove();
+    };
     /////////////////////
     // set parameters //
     ////////////////////
 
-    svgWidth = 750;
-    svgHeight = 600;
+    // svgWidth = 750;
+    // svgHeight = 600;
 
-    // svgWidth = window.innerWidth > 750 ? 750 : window.innerWidth; // if innerwidth is greater than 750, set to 750, if not set to innerwidth
-    // svgHeight = window.innerHeight > 600 ? 600 : window.innerHeight;
+    svgWidth = window.innerWidth > 750 ? 750 : window.innerWidth; // if innerwidth is greater than 750, set to 750, if not set to innerwidth
+    svgHeight = window.innerHeight > 600 ? 600 : window.innerHeight;
 
     var margin = {
         top: 30,
@@ -335,8 +335,8 @@
     }).catch(function(error) {
         console.log(error)
     });
-// };
+};
 
-// makeResponsive();
+makeResponsive();
 
-// d3.select(window).on("resize", makeResponsive);
+d3.select(window).on("resize", makeResponsive);

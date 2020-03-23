@@ -58,7 +58,7 @@
 /* Mobile Rules */
 @media screen and (max-width: 750px) {
   .stateText {
-    display: none;
+    display: all;
   }
 
   .aText {
