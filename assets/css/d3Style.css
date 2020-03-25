@@ -39,6 +39,8 @@
 
 .stateCircle:hover {
   stroke: #000;
+  pointer-events: all;
+
 }
 
 .chart {

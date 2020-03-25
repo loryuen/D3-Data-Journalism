@@ -12,9 +12,6 @@ function makeResponsive() {
     // set parameters //
     ////////////////////
 
-    // svgWidth = 750;
-    // svgHeight = 600;
-
     svgWidth = window.innerWidth > 750 ? 750 : window.innerWidth; // if innerwidth is greater than 750, set to 750, if not set to innerwidth
     svgHeight = window.innerHeight > 600 ? 600 : window.innerHeight;
 
@@ -92,10 +89,6 @@ function makeResponsive() {
         circlesText.transition()
             .duration(1000)
             .attr("x", d => newXScale(d[chosenXAxis]))
-            // .attr("y", d => yScale(d.healthcare))
-            // // .attr("dx", ".71em")
-            // .attr("dy", ".35em")
-            // .text(function(d) {return d.abbr})
 
         return circlesText;
 
@@ -108,21 +101,26 @@ function makeResponsive() {
     function updateToolTip(chosenXAxis, circlesGroup) {
 
         var label;
-        
-        if (chosenXAxis === "poverty") {
-            label = "Population in Poverty (%)"
-        }
-        else {
-            label = "Household Income (Median)"
-        }
+        var currencyFormat = function(d) { return "$" + d3.format(",.2f")(d); };
 
         var toolTip = d3.tip()
             .attr("class", "d3-tip")
             .offset([80, -60])
             .html(function(d) {
-                return (`${d.state}<br>${label}: ${d[chosenXAxis]}<br>% without Healthcare: ${d.healthcare}`)
-        });
 
+
+                if (chosenXAxis === "poverty") {
+                    label = "Population in Poverty"
+                    var chosenX = `${d[chosenXAxis]}%`
+                    }
+                else {
+                    label = "Median Household Income (USD)"
+                    chosenX = currencyFormat(d[chosenXAxis])
+                    }
+
+                return (`${d.state}<br>${label}: ${chosenX}<br>Lacks Healthcare: ${d.healthcare}%`)
+            })
+            
         // call tooltip to chart
         circlesGroup.call(toolTip);
 
@@ -156,15 +154,7 @@ function makeResponsive() {
         // create scales
         var minHealthcare = d3.min(censusData, d => d.healthcare)+2;
         var maxHealthcare = d3.max(censusData, d => d.healthcare)+2;
-        // var minPoverty = d3.min(censusData, d => d.poverty)+2;
-        // var maxPoverty = d3.max(censusData, d => d.poverty)+2;
-        // console.log(maxPoverty);
-        // console.log(minPoverty);
-
-        // var xScale = d3.scaleLinear()
-        //     .domain([minPoverty-3, maxPoverty])
-        //     .range([0, width]);
-
+     
         // xLinearScale function
         var xLinearScale = xScale(censusData, chosenXAxis);
 
@@ -187,16 +177,6 @@ function makeResponsive() {
         chartGroup.append("g")
             .call(leftAxis);
 
-        // // create circles
-        // var circlesGroup = chartGroup.selectAll("circle")
-        //     .data(censusData)
-        //     .enter()
-        //     .append("circle")
-        //     .classed("stateCircle", true)
-        //     .attr("cx", d => xScale(d.poverty))
-        //     .attr("cy", d => yScale(d.healthcare))
-        //     .attr("r", "20")
-
         // append initial circles
         var circlesGroup = chartGroup.selectAll("circle")
             .data(censusData)
@@ -218,38 +198,6 @@ function makeResponsive() {
             // .attr("dx", ".71em")
             .attr("dy", ".35em")
             .text(function(d) {return d.abbr})
-
-        // text on circles
-        // chartGroup.selectAll("stateText")
-        //     .data(censusData)
-        //     .enter()
-        //     .append("text")
-        //     .attr("class", "stateText")
-        //     .attr("x", d => xScale(d[chosenXAxis]))
-        //     .attr("y", d => yScale(d.healthcare))
-        //     // .attr("dx", ".71em")
-        //     .attr("dy", ".35em")
-        //     .text(function(d) {return d.abbr})
-            
-
-        // // tool tip
-        // var toolTip = d3.tip()
-        //     .attr("class", "d3-tip")
-        //     // .offset([80, -60])
-        //     .html(function(d) {
-        //         return (`${d.state}<br>% in Poverty: ${d.poverty}<br>% without Healthcare: ${d.healthcare}`)
-        //     });
-        
-        // // call tooltip to chart
-        // chartGroup.call(toolTip);
-
-        // // event listener
-        // circlesGroup.on("mouseenter", function(data) {
-        //     toolTip.show(data, this)
-        // })
-        // .on("mouseleave", function(data) {
-        //     toolTip.hide(data)
-        // })
 
         // create group for 2 x-axis labels
         var labelsGroup = chartGroup.append("g")
@@ -279,12 +227,6 @@ function makeResponsive() {
             .attr("dy", "1em")
             .attr("class", "aText")
             .text("Lacks Healthcare (%)")
-        
-        // x axis label
-        // chartGroup.append("text")
-        //     .attr("transform", `translate(${width/2}, ${height + margin.top + 20})`)
-        //     .attr("class", "aText")
-        //     .text("Population in Poverty (%)")
 
         // updateToolTip function 
         circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
